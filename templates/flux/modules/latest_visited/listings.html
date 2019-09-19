@@ -1,0 +1,61 @@
+<section id="latest_visited">
+
+	<div class="left_tabs mb0">
+	{capture name=some_content assign=field_name}title_{$crt_lang}{/capture}
+	<h2><span>{$lv_settings[$field_name]}</span></h2>
+		<div class="tab_content" id="latest_visited_content">
+
+    		{section name=loop start=0 loop=$no_latest_visited step=1}
+
+			{capture name=some_content assign=details_url}{if $seo_settings.enable_mod_rewrite}{seo->makeDetailsLink p1=$latest_visited[loop].id p2=$latest_visited[loop].title p3='' p4=$latest_visited[loop].category_id p5=$latest_visited[loop].slug}{else}{$live_site}/details.php?id={$latest_visited[loop].id}{/if}{/capture}
+
+			<div class="small-box-container">
+			<div class="small-box clearfix">
+
+				<a href="{$details_url}"><img id="fpic{$latest_visited[loop].id}" src="{$live_site}/{$latest_visited[loop].image}" alt="{if $latest_visited[loop].image_id}{$latest_visited[loop].title|strip_tags:false|substr:0:100}{/if}" /></a>
+
+				{if in_array("acategories", $modules_array) && in_array($latest_visited[loop].category_id, $ac_settings.array_categories_list)}
+				<div id="ac{$latest_visited[loop].id}" class="ac_over">{$lng.general.click_to_view}</div>
+				{/if}
+
+				<h3 class="ltitle">{if $data_set=="cars" && ((isset($latest_visited[loop].make) && $latest_visited[loop].make) || (isset($latest_visited[loop].model) && $latest_visited[loop].model))}<a href="{$details_url}">{$latest_visited[loop].make} {$latest_visited[loop].model}</a>{else}<a href="{$details_url}">{if $appearance.charset=="UTF-8"}{$latest_visited[loop].title|mb_truncate:30:"...":"UTF-8"}{else}{$latest_visited[loop].title|truncate:30:"...":false}{/if}</a>{/if}</h3>
+
+				<div class="lloc">{$latest_visited[loop].location_str}</div>
+
+				{if $ads_settings.enable_price}
+		
+					{if in_array("price_extra",$modules_array) && (isset($pe_settings[$latest_visited[loop].fieldset]) || isset($pe_settings[0])) }
+	
+						{include file="modules/price_extra/gallery_listing.html" pe_listing=$latest_visited[loop]}
+	
+					{else}
+
+						{if $latest_visited[loop].price>=0}<div class="lprice">{$latest_visited[loop].price_curr}</div>{/if}
+
+					{/if}
+			
+				{/if} {* end if enable price *}
+				
+				<a href="javascript:;" class="addtofav" id="fav{$latest_visited[loop].id}"><div class="starfav make-fav"></div></a>
+			</div>
+			</div>
+		{/section}
+		<div class="clearfix"></div>
+
+		</div> {* end tab_content *}
+
+	</div> {* end latest_visited *}
+
+</section>
+
+
+<script>
+$(document).ready(function() {
+
+$(".ac_over").on('click',function(){
+	var acid = jQuery(this).attr("id").substr(2);
+	$("#ac"+acid).hide();
+});
+
+});
+</script>

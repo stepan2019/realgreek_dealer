@@ -1,0 +1,11 @@
+	<div>
+
+	{if isset($crt_usr) && $crt_usr==$listing.user_id}<a href="javascript:;" id="show_bids">{/if}<div class="btn5"><strong><span class="heavy">{$lng.useraccount.auction}</span><span class="small1">{if $listing.auction.max_bid}&nbsp;|&nbsp;{$lng.useraccount.max_bid|replace:" ":"&nbsp;"}:&nbsp;<span id="max_bid">{$listing.auction.max_bid_nice|replace:" ":"&nbsp;"}</span>,{/if}&nbsp;|&nbsp;{$lng.useraccount.starts_at|replace:" ":"&nbsp;"}:&nbsp;{$listing.auction.starting_price|replace:" ":"&nbsp;"}</span></strong></div>{if isset($crt_usr) && $crt_usr==$listing.user_id}</a>{/if}
+
+	{if isset($crt_usr) && $crt_usr!=$listing.user_id}
+	<a href="javascript:;" id="place_bid"><div class="btn6"><strong>{$lng.useraccount.place_bid|replace:" ":"&nbsp;"}</strong></div></a>
+	{/if}
+
+	<div class="clearfix"></div>
+	</div>
+

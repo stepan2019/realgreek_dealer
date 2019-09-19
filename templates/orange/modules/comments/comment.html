@@ -1,0 +1,13 @@
+	<div class="comments">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+	{if $v.logo}<td valign="middle" width="100"><div class="clogo"><a href="{if $v.store}{if $seo_settings.enable_mod_rewrite}{seo->makeDealerLink p1=`$v.user_id` p2=`$v[$settings.contact_name_field]`}{else}{$live_site}/store.php?id={$v.user_id}{/if}{else}{if $seo_settings.enable_mod_rewrite}{seo->makeUserListingsLink p1=`$v.user_id` p2=`$v[$settings.contact_name_field]`}{else}{$live_site}/user_listings.php?id={$v.user_id}{/if}{/if}"><img src="{$live_site}/uploads/{$comments_settings.logo_field}/{$v.logo}"></a></div></td>{/if}
+	<td>
+	<div class="{cycle values="comment_even,comment_odd"}">
+		<div class="cname">{$v.name|wordwrap:40:" ":true}</div>
+		<div class="cdate">{$v.date_nice}</div>
+		<p class="ccontent">{$v.content|wordwrap:50:" ":true}</p>
+		{if $v.website && $comments_settings.use_website}<div><a href="{$v.website}">{$v.website}</a></div>{/if}
+	</div>
+	</td></tr></table>
+	</div>

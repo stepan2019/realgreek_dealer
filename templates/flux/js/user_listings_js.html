@@ -1,0 +1,85 @@
+
+<script type="text/javascript">
+//<![CDATA[
+
+{foreach from=$gmaps item=v}
+	{if isset($user[$v.caption]) && $user[$v.caption] && $v.public}
+		{include file="data/gmap-ro.html"}
+	{/if}
+{/foreach}
+
+
+{literal}
+function init_gmap() {
+
+{/literal}
+	{foreach from=$user_fields_array item=v}
+		{if $v.type=="google_maps" &&  $tmp[$v.caption]}
+			init_gmap_{$v.caption}();
+		{/if}
+	{/foreach}
+{literal}
+
+	}
+
+$(document).ready(function() {
+{/literal}
+
+var gmaps_on = {if $gmaps}1{else}0{/if};
+// initialize google maps
+if (gmaps_on) load_gmaps();
+
+{if in_array("ratings",$modules_array) && $ratings_settings.ar_html_editor && !$rating_nologin && !$same_user && !$voted}
+//	loadReviewsEditor();
+{/if}
+{literal}
+$('a.imgfield').magnificPopup({type:'image', image: { cursor: null } });
+
+$('.open-popup-link').magnificPopup({
+  type:'inline',
+  midClick: true // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+});
+
+$("a.show_phone").click(function(event){
+
+	var field = jQuery(this).attr("id").substr(5);
+
+	$.ajax({
+		type		: "GET",
+		cache		: false,
+		url		: "{/literal}{$live_site}/include/get_phone.php?id={$id}&field={literal}"+field,
+		data		: $(this).serializeArray(),
+		success: function(data) {
+
+			$("#span_"+field).html(data);
+			$("#show_"+field).hide();
+
+		} // end data
+	});// end ajax
+
+});// end show_phone
+
+$("a.show_email").click(function(event){
+
+	var field = jQuery(this).attr("id").substr(5);
+
+	$.ajax({
+		type		: "GET",
+		cache		: false,
+		url		: "{/literal}{$live_site}/include/get_phone.php?id={$id}&field={literal}"+field,
+		data		: $(this).serializeArray(),
+		success: function(data) {
+
+			$("#span_"+field).html(data);
+			$("#show_"+field).hide();
+
+		} // end data
+	});// end ajax
+
+});// end show_email
+
+});// end document ready
+
+{/literal}
+//]]>
+</script>
